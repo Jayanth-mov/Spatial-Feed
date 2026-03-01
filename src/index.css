@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@import 'tldraw/tldraw.css';
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
