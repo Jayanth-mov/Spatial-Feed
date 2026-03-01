@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Tldraw, type Editor, type TLComponents } from 'tldraw'
 import { TweetShapeUtil, TWEET_SHAPE_TYPE } from './TweetShape'
 import { Toolbar } from './Toolbar'
@@ -7,18 +8,10 @@ import { throttle } from '../utils/throttle'
 
 const CUSTOM_SHAPE_UTILS = [TweetShapeUtil]
 
-const COMPONENTS: TLComponents = {
-  InFrontOfTheCanvas: Toolbar,
-}
-
 function handleMount(editor: Editor) {
-  // Force dark mode always
   editor.user.updateUserPreferences({ colorScheme: 'dark' })
-
-  // Restore persisted board
   loadFromLocalStorage(editor)
 
-  // Intercept URL pastes — detect tweet URLs and create tweet shapes
   editor.registerExternalContentHandler('url', (content) => {
     const url = content.url
     if (!url || !isTweetUrl(url)) return
@@ -40,7 +33,6 @@ function handleMount(editor: Editor) {
     })
   })
 
-  // Auto-save on every store change, throttled to 500ms
   editor.store.listen(
     throttle(() => {
       saveToLocalStorage(editor)
@@ -49,14 +41,52 @@ function handleMount(editor: Editor) {
 }
 
 export default function App() {
+  const [presenting, setPresenting] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPresenting(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  const components: TLComponents = presenting
+    ? {}
+    : { InFrontOfTheCanvas: () => <Toolbar onPresent={() => setPresenting(true)} /> }
+
   return (
     <div style={{ position: 'fixed', inset: 0 }}>
       <Tldraw
         shapeUtils={CUSTOM_SHAPE_UTILS}
-        components={COMPONENTS}
+        components={components}
         onMount={handleMount}
+        hideUi={presenting}
         inferDarkMode
       />
+      {presenting && (
+        <button
+          onClick={() => setPresenting(false)}
+          title="Exit presentation (Esc)"
+          style={{
+            position: 'fixed',
+            bottom: '16px',
+            right: '16px',
+            zIndex: 9999,
+            background: 'rgba(15, 15, 15, 0.7)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '8px',
+            color: 'rgba(255,255,255,0.6)',
+            fontSize: '12px',
+            fontFamily: 'system-ui, sans-serif',
+            padding: '6px 12px',
+            cursor: 'pointer',
+          }}
+        >
+          Exit (Esc)
+        </button>
+      )}
     </div>
   )
 }

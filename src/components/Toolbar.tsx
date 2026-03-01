@@ -1,7 +1,11 @@
 import { useEditor } from 'tldraw'
 import { exportBoardAsFile, importBoardFromFile } from '../utils/storage'
 
-export function Toolbar() {
+interface ToolbarProps {
+  onPresent: () => void
+}
+
+export function Toolbar({ onPresent }: ToolbarProps) {
   const editor = useEditor()
 
   return (
@@ -11,7 +15,8 @@ export function Toolbar() {
         top: '12px',
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 500,
+        zIndex: 10000,
+        pointerEvents: 'all',
         display: 'flex',
         gap: '8px',
         alignItems: 'center',
@@ -54,15 +59,13 @@ export function Toolbar() {
 
       <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.15)' }} />
 
-      <span
-        style={{
-          color: 'rgba(255,255,255,0.4)',
-          fontSize: '11px',
-          fontFamily: 'system-ui, sans-serif',
-        }}
+      <button
+        onClick={onPresent}
+        style={buttonStyle}
+        title="Present — hide all UI"
       >
-        Paste a tweet URL to embed it
-      </span>
+        Present
+      </button>
     </div>
   )
 }
