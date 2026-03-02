@@ -6,7 +6,21 @@ body {
   overflow: hidden;
 }
 
-/* Hide hover selection outline in present mode */
-.presenting .tl-shape-indicator {
+/* Hide all selection/hover indicators in present mode */
+.presenting .tl-shape-indicator,
+.presenting .tl-selection__fg,
+.presenting .tl-selection__fg__outline,
+.presenting .tl-corner-handle,
+.presenting .tl-mobile-rotate__bg,
+.presenting .tl-mobile-rotate__fg,
+.tl-container .tl-shape-indicator:has(~ .presenting),
+body:has(.presenting) .tl-shape-indicator,
+body:has(.presenting) .tl-selection__fg,
+body:has(.presenting) .tl-selection__fg__outline,
+body:has(.presenting) .tl-corner-handle,
+body:has(.presenting) .tl-mobile-rotate__bg,
+body:has(.presenting) .tl-mobile-rotate__fg {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
