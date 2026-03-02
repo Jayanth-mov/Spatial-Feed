@@ -70,7 +70,7 @@ export default function App() {
     : { InFrontOfTheCanvas: () => <Toolbar onPresent={enterPresent} /> }
 
   return (
-    <div style={{ position: 'fixed', inset: 0 }}>
+    <div style={{ position: 'fixed', inset: 0 }} className={presenting ? 'presenting' : ''}>
       <Tldraw
         shapeUtils={CUSTOM_SHAPE_UTILS}
         components={components}

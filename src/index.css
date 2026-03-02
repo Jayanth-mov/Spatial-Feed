@@ -5,3 +5,8 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
+/* Hide hover selection outline in present mode */
+.presenting .tl-shape-indicator {
+  display: none !important;
+}
