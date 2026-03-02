@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Tldraw, type Editor, type TLComponents } from 'tldraw'
 import { TweetShapeUtil, TWEET_SHAPE_TYPE } from './TweetShape'
 import { Toolbar } from './Toolbar'
@@ -44,17 +44,30 @@ function handleMount(editor: Editor) {
 export default function App() {
   const [presenting, setPresenting] = useState(false)
 
+  const enterPresent = useCallback(() => {
+    document.documentElement.requestFullscreen().catch(() => {})
+    setPresenting(true)
+  }, [])
+
+  const exitPresent = useCallback(() => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
+    setPresenting(false)
+  }, [])
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setPresenting(false)
-    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPresenting(false) }
+    const onFsChange = () => { if (!document.fullscreenElement) setPresenting(false) }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    document.addEventListener('fullscreenchange', onFsChange)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.removeEventListener('fullscreenchange', onFsChange)
+    }
   }, [])
 
   const components: TLComponents = presenting
     ? {}
-    : { InFrontOfTheCanvas: () => <Toolbar onPresent={() => setPresenting(true)} /> }
+    : { InFrontOfTheCanvas: () => <Toolbar onPresent={enterPresent} /> }
 
   return (
     <div style={{ position: 'fixed', inset: 0 }}>
@@ -68,7 +81,7 @@ export default function App() {
       {presenting && <LaserPointer />}
       {presenting && (
         <button
-          onClick={() => setPresenting(false)}
+          onClick={exitPresent}
           title="Exit presentation (Esc)"
           style={{
             position: 'fixed',
