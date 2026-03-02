@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Tldraw, type Editor, type TLComponents } from 'tldraw'
 import { TweetShapeUtil, TWEET_SHAPE_TYPE } from './TweetShape'
 import { Toolbar } from './Toolbar'
+import { LaserPointer } from './LaserPointer'
 import { isTweetUrl, extractTweetId } from '../utils/tweetParser'
 import { loadFromLocalStorage, saveToLocalStorage } from '../utils/storage'
 import { throttle } from '../utils/throttle'
@@ -64,6 +65,7 @@ export default function App() {
         hideUi={presenting}
         inferDarkMode
       />
+      {presenting && <LaserPointer />}
       {presenting && (
         <button
           onClick={() => setPresenting(false)}
