@@ -139,33 +139,6 @@ function TweetShapeComponent({ shape }: { shape: TweetShape }) {
         style={{ padding: '8px', minHeight: '100px' }}
       />
 
-      {!isEditing && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            paddingBottom: '10px',
-            pointerEvents: 'none',
-          }}
-        >
-          <span
-            style={{
-              fontSize: '11px',
-              color: 'rgba(255,255,255,0.35)',
-              background: 'rgba(0,0,0,0.4)',
-              borderRadius: '4px',
-              padding: '2px 7px',
-              fontFamily: 'system-ui, sans-serif',
-            }}
-          >
-            Double-click to interact · Esc to exit
-          </span>
-        </div>
-      )}
     </HTMLContainer>
   )
 }
