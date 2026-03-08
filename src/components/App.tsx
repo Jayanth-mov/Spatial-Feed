@@ -72,6 +72,7 @@ export default function App() {
   return (
     <div style={{ position: 'fixed', inset: 0 }} className={presenting ? 'presenting' : ''}>
       <Tldraw
+        licenseKey="tldraw-2026-06-16/WyJjNGExYWFZYSIsWyIqIl0sMTYsIjIwMjYtMDYtMTYiXQ.ZiaE8Fi+JcdB5DbE6158tqk2ClpwLUfHUNie871vk2r1z8hPoPuJWRTteNirWYsDYvY8ZXVVmWwiPeA6V/Id3w"
         shapeUtils={CUSTOM_SHAPE_UTILS}
         components={components}
         onMount={handleMount}
