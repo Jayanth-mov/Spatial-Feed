@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Tldraw, type Editor, type TLComponents } from 'tldraw'
+import { DefaultToolbar, DefaultToolbarContent, HighlightToolbarItem, Tldraw, type Editor, type TLComponents } from 'tldraw'
 import { TweetShapeUtil, TWEET_SHAPE_TYPE } from './TweetShape'
 import { Toolbar } from './Toolbar'
 import { LaserPointer } from './LaserPointer'
@@ -67,7 +67,15 @@ export default function App() {
 
   const components: TLComponents = presenting
     ? {}
-    : { InFrontOfTheCanvas: () => <Toolbar onPresent={enterPresent} /> }
+    : {
+        InFrontOfTheCanvas: () => <Toolbar onPresent={enterPresent} />,
+        Toolbar: () => (
+          <DefaultToolbar>
+            <HighlightToolbarItem />
+            <DefaultToolbarContent />
+          </DefaultToolbar>
+        ),
+      }
 
   return (
     <div style={{ position: 'fixed', inset: 0 }} className={presenting ? 'presenting' : ''}>
