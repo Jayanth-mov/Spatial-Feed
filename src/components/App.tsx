@@ -49,11 +49,6 @@ export default function App() {
     setPresenting(true)
   }, [])
 
-  const exitPresent = useCallback(() => {
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
-    setPresenting(false)
-  }, [])
-
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPresenting(false) }
     const onFsChange = () => { if (!document.fullscreenElement) setPresenting(false) }
@@ -88,29 +83,6 @@ export default function App() {
         inferDarkMode
       />
       {presenting && <LaserPointer />}
-      {presenting && (
-        <button
-          onClick={exitPresent}
-          title="Exit presentation (Esc)"
-          style={{
-            position: 'fixed',
-            bottom: '16px',
-            right: '16px',
-            zIndex: 9999,
-            background: 'rgba(15, 15, 15, 0.7)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: '8px',
-            color: 'rgba(255,255,255,0.6)',
-            fontSize: '12px',
-            fontFamily: 'system-ui, sans-serif',
-            padding: '6px 12px',
-            cursor: 'pointer',
-          }}
-        >
-          Exit (Esc)
-        </button>
-      )}
     </div>
   )
 }
