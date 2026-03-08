@@ -36,7 +36,7 @@ export function Toolbar({ onPresent }: ToolbarProps) {
           marginRight: '4px',
         }}
       >
-        Infinite Board
+        Jayanth's Spatial Feed
       </span>
 
       <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.15)' }} />
