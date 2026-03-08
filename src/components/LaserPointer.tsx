@@ -86,9 +86,9 @@ export function LaserPointer() {
       // Draw smooth trail with glow that scales with speed
       if (pts.length >= 2) {
         // Trail glow pass — draw with shadowBlur for real bloom
-        const trailGlowBlur = 10 + intensity * 30
+        const trailGlowBlur = 10 + intensity * 300
         ctx.save()
-        ctx.shadowColor = `rgba(255, 20, 20, ${0.4 + intensity * 0.5})`
+        ctx.shadowColor = `rgba(255, 20, 20, ${0.4 + intensity * 0.9})`
         ctx.shadowBlur = trailGlowBlur
         ctx.lineCap = 'round'
         ctx.lineJoin = 'round'
